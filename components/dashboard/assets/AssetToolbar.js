@@ -2,7 +2,7 @@
 
 import { Search, Plus } from "lucide-react";
 
-export default function AssetToolbar() {
+export default function AssetToolbar({ onAddAsset }) {
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
 
@@ -43,7 +43,13 @@ export default function AssetToolbar() {
             <option>Maintenance</option>
           </select>
 
-          <button className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-white font-medium hover:bg-indigo-700">
+          <button
+    onClick={() => {
+  console.log("Button Clicked");
+  onAddAsset();
+}}
+    className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2 text-white font-medium hover:bg-indigo-700"
+>
 
             <Plus size={18} />
 

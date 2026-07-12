@@ -13,6 +13,8 @@ import {
   ClipboardCheck,
   BarChart3,
   Bell,
+  Settings,
+  ChevronRight,
 } from "lucide-react";
 
 const menuItems = [
@@ -22,17 +24,17 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Organization Setup",
+    title: "Organization",
     href: "/dashboard/organization",
     icon: Building2,
   },
   {
-    title: "Assets",
+    title: "Asset Management",
     href: "/dashboard/assets",
     icon: Boxes,
   },
   {
-    title: "Allocation & Transfer",
+    title: "Allocation",
     href: "/dashboard/allocation",
     icon: Repeat,
   },
@@ -67,25 +69,25 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-72 border-r border-slate-200 bg-white h-screen sticky top-0">
+    <aside className="flex h-screen w-72 flex-col border-r border-slate-200 bg-white">
 
       {/* Logo */}
 
       <div className="border-b border-slate-200 px-6 py-6">
 
-        <h1 className="text-2xl font-bold text-indigo-600">
+        <h1 className="text-3xl font-bold text-indigo-600">
           AssetFlow
         </h1>
 
-        <p className="text-sm text-slate-500">
-          Enterprise ERP
+        <p className="mt-1 text-sm text-slate-500">
+          Enterprise Asset ERP
         </p>
 
       </div>
 
       {/* Navigation */}
 
-      <nav className="p-4 space-y-2">
+      <nav className="flex-1 overflow-y-auto p-4 space-y-2">
 
         {menuItems.map((item) => {
 
@@ -98,18 +100,33 @@ export default function Sidebar() {
             <Link
               key={item.title}
               href={item.href}
-              className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-colors
+              className={`group flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-200
 
-                ${
-                  active
-                    ? "bg-indigo-50 text-indigo-700 font-semibold"
-                    : "text-slate-600 hover:bg-slate-100"
-                }
-              `}
+              ${
+                active
+                  ? "bg-indigo-600 text-white shadow-md"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
             >
-              <Icon size={20} />
 
-              <span>{item.title}</span>
+              <div className="flex items-center gap-3">
+
+                <Icon size={20} />
+
+                <span className="font-medium">
+                  {item.title}
+                </span>
+
+              </div>
+
+              <ChevronRight
+                size={16}
+                className={`${
+                  active
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                }`}
+              />
 
             </Link>
 
@@ -117,6 +134,22 @@ export default function Sidebar() {
         })}
 
       </nav>
+
+      {/* Footer */}
+
+      <div className="border-t border-slate-200 p-4">
+
+        <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-slate-600 transition hover:bg-slate-100">
+
+          <Settings size={20} />
+
+          <span className="font-medium">
+            Settings
+          </span>
+
+        </button>
+
+      </div>
 
     </aside>
   );

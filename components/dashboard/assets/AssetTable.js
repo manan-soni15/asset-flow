@@ -1,110 +1,119 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Eye } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 
-const assets = [
-  {
-    id: 1,
-    name: "Dell Latitude 7420",
-    tag: "AF-0001",
-    category: "Electronics",
-    assigned: "Rahul Sharma",
-    location: "IT Office",
-    status: "Available",
-  },
-  {
-    id: 2,
-    name: "HP EliteBook",
-    tag: "AF-0002",
-    category: "Electronics",
-    assigned: "Priya Patel",
-    location: "HR",
-    status: "Allocated",
-  },
-  {
-    id: 3,
-    name: "Conference Projector",
-    tag: "AF-0003",
-    category: "Equipment",
-    assigned: "-",
-    location: "Meeting Room",
-    status: "Maintenance",
-  },
-];
-
-export default function AssetTable() {
+export default function AssetTable({
+  assets,
+  onDelete,
+  onEdit,
+  onView,
+}) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
       <table className="w-full">
 
         <thead className="bg-slate-50">
 
           <tr>
-
-            <th className="text-left p-4">Asset</th>
-            <th className="text-left p-4">Tag</th>
-            <th className="text-left p-4">Category</th>
-            <th className="text-left p-4">Assigned To</th>
-            <th className="text-left p-4">Location</th>
-            <th className="text-left p-4">Status</th>
-            <th className="text-center p-4">Actions</th>
-
+            <th className="p-4 text-left">Asset</th>
+            <th className="p-4 text-left">Tag</th>
+            <th className="p-4 text-left">Category</th>
+            <th className="p-4 text-left">Assigned To</th>
+            <th className="p-4 text-left">Location</th>
+            <th className="p-4 text-left">Status</th>
+            <th className="p-4 text-center">Actions</th>
           </tr>
 
         </thead>
 
         <tbody>
 
-          {assets.map((asset) => (
+          {assets.length === 0 ? (
 
-            <tr
-              key={asset.id}
-              className="border-t hover:bg-slate-50"
-            >
+            <tr>
 
-              <td className="p-4 font-medium">
-                {asset.name}
-              </td>
-
-              <td className="p-4">
-                {asset.tag}
-              </td>
-
-              <td className="p-4">
-                {asset.category}
-              </td>
-
-              <td className="p-4">
-                {asset.assigned}
-              </td>
-
-              <td className="p-4">
-                {asset.location}
-              </td>
-
-              <td className="p-4">
-                <StatusBadge status={asset.status} />
-              </td>
-
-              <td className="p-4">
-
-                <div className="flex justify-center gap-3">
-
-                  <button className="text-indigo-600 hover:text-indigo-800">
-                    <Pencil size={18} />
-                  </button>
-
-                  <button className="text-red-600 hover:text-red-800">
-                    <Trash2 size={18} />
-                  </button>
-
-                </div>
-
+              <td
+                colSpan={7}
+                className="p-10 text-center text-slate-500"
+              >
+                No assets found.
               </td>
 
             </tr>
 
-          ))}
+          ) : (
+
+            assets.map((asset) => (
+
+              <tr
+                key={asset.id}
+                className="border-t hover:bg-slate-50 transition"
+              >
+
+                <td className="p-4 font-medium">
+                  {asset.name}
+                </td>
+
+                <td className="p-4">
+                  {asset.tag}
+                </td>
+
+                <td className="p-4">
+                  {asset.category}
+                </td>
+
+                <td className="p-4">
+                  {asset.assigned}
+                </td>
+
+                <td className="p-4">
+                  {asset.location}
+                </td>
+
+                <td className="p-4">
+                  <StatusBadge status={asset.status} />
+                </td>
+
+                <td className="p-4">
+
+                  <div className="flex justify-center gap-4">
+
+                    {/* View */}
+                    <button
+                      onClick={() => onView(asset)}
+                      title="View Asset"
+                      className="text-slate-500 hover:text-indigo-600 transition"
+                    >
+                      <Eye size={18} />
+                    </button>
+
+                    {/* Edit */}
+                    <button
+                      onClick={() => onEdit(asset)}
+                      title="Edit Asset"
+                      className="text-slate-500 hover:text-blue-600 transition"
+                    >
+                      <Pencil size={18} />
+                    </button>
+
+                    {/* Delete */}
+                    <button
+                      onClick={() => onDelete(asset.id)}
+                      title="Delete Asset"
+                      className="text-slate-500 hover:text-red-600 transition"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            ))
+
+          )}
 
         </tbody>
 
