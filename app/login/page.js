@@ -1,11 +1,53 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        router.push("/dashboard");
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 flex items-center justify-center px-6 py-10">
@@ -46,7 +88,10 @@ export default function LoginPage() {
 
         {/* Login Form */}
 
-        <form className="mt-10 space-y-6">
+        <form
+          onSubmit={handleLogin}
+          className="mt-10 space-y-6"
+        >
 
           {/* Email */}
 
@@ -107,13 +152,21 @@ export default function LoginPage() {
 
           </div>
 
+          {/* Error Message */}
+
+          {error && (
+            <p className="text-sm text-red-600 font-medium">
+              {error}
+            </p>
+          )}
+
           {/* Login Button */}
 
           <button
             type="submit"
             className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 font-semibold text-white shadow-lg transition hover:opacity-95 hover:shadow-xl"
           >
-            Login
+            {loading ? "Signing In..." : "Login"}
           </button>
 
         </form>

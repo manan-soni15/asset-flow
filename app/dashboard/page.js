@@ -1,4 +1,7 @@
 import KPICard from "@/components/dashboard/KPICard";
+import NotificationBanner from "@/components/dashboard/NotificationBanner";
+import QuickActions from "@/components/dashboard/QuickActions";
+import ActivityCard from "@/components/dashboard/ActivityCard";
 
 import {
   Boxes,
@@ -15,7 +18,7 @@ export default function DashboardPage() {
 
       <div>
 
-        <h2 className="text-2xl font-bold text-slate-800">
+        <h2 className="text-2xl font-bold">
           Today's Overview
         </h2>
 
@@ -25,53 +28,29 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* KPI Cards */}
+      {/* KPI */}
 
-      <div className="grid gap-6 lg:grid-cols-3 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
-        <KPICard
-          title="Available Assets"
-          value="128"
-          icon={Boxes}
-          color="indigo"
-        />
+        <KPICard title="Available Assets" value="128" icon={Boxes} color="indigo" />
 
-        <KPICard
-          title="Allocated Assets"
-          value="76"
-          icon={UserCheck}
-          color="blue"
-        />
+        <KPICard title="Allocated Assets" value="76" icon={UserCheck} color="blue" />
 
-        <KPICard
-          title="Under Maintenance"
-          value="4"
-          icon={Wrench}
-          color="amber"
-        />
+        <KPICard title="Maintenance" value="4" icon={Wrench} color="amber" />
 
-        <KPICard
-          title="Active Bookings"
-          value="9"
-          icon={CalendarDays}
-          color="emerald"
-        />
+        <KPICard title="Bookings" value="9" icon={CalendarDays} color="emerald" />
 
-        <KPICard
-          title="Pending Transfers"
-          value="3"
-          icon={Repeat}
-          color="purple"
-        />
+        <KPICard title="Transfers" value="3" icon={Repeat} color="purple" />
 
-        <KPICard
-          title="Upcoming Returns"
-          value="12"
-          icon={Clock3}
-          color="red"
-        />
+        <KPICard title="Returns" value="12" icon={Clock3} color="red" />
 
       </div>
+
+      <NotificationBanner />
+
+      <QuickActions />
+
+      <ActivityCard />
 
     </div>
   );
