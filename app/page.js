@@ -339,7 +339,8 @@ export default function Home() {
 
           <Link
             href="/signup"
-            className="mt-8 inline-flex rounded-xl bg-white px-7 py-3 font-semibold text-indigo-700"
+            className="mt-8 inline-flex rounded-xl bg-blue px-7 py-3 font-semibold text-indigo-700"
+
           >
             Get Started
           </Link>
