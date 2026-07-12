@@ -237,7 +237,7 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-4">
 
           {[
-            ["500+", "Assets Managed"],
+            ["400+", "Assets Managed"],
             ["25+", "Departments"],
             ["1200+", "Bookings"],
             ["98%", "Availability"],
