@@ -4,10 +4,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req) {
   try {
-    const body = await req.json();
+    const { name, email, password, department } = await req.json();
 
-    const { name, email, password, department } = body;
-
+    // Validation
     if (!name || !email || !password) {
       return NextResponse.json(
         {
@@ -18,6 +17,7 @@ export async function POST(req) {
       );
     }
 
+    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: {
         email,
@@ -28,29 +28,33 @@ export async function POST(req) {
       return NextResponse.json(
         {
           success: false,
-          message: "Email already registered.",
+          message: "Email already exists.",
         },
         { status: 400 }
       );
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
+    // Create user
+    const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        department,
+        department: department || null,
       },
     });
 
     return NextResponse.json({
       success: true,
       message: "Account created successfully.",
+      user,
     });
+
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return NextResponse.json(
       {

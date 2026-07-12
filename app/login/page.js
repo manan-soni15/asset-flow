@@ -29,7 +29,7 @@ export default function LoginPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          email: email.trim(),
           password,
         }),
       });
@@ -42,11 +42,12 @@ export default function LoginPage() {
       } else {
         setError(data.message);
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -57,15 +58,13 @@ export default function LoginPage() {
         {/* Back Button */}
 
         <div className="mb-6">
-
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-indigo-600 hover:bg-indigo-50 hover:text-indigo-600"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-600 hover:bg-indigo-50 hover:text-indigo-600"
           >
             <ArrowLeft size={18} />
             Back to Home
           </Link>
-
         </div>
 
         {/* Header */}
@@ -104,6 +103,9 @@ export default function LoginPage() {
             <input
               type="email"
               placeholder="name@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
             />
 
@@ -133,6 +135,9 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 pr-12 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
               />
 
@@ -164,7 +169,8 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 font-semibold text-white shadow-lg transition hover:opacity-95 hover:shadow-xl"
+            disabled={loading}
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 font-semibold text-white shadow-lg transition hover:opacity-95 hover:shadow-xl disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? "Signing In..." : "Login"}
           </button>
