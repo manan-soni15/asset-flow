@@ -60,7 +60,7 @@ export default function TopBar() {
           <div className="hidden md:block">
 
             <p className="font-semibold">
-              Manan
+              
             </p>
 
             <p className="text-sm text-slate-500">
