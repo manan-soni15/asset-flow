@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,18 +12,30 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-10 shadow-xl">
 
+        {/* Back Button */}
+
+        <div className="mb-6">
+
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-indigo-600 hover:bg-indigo-50 hover:text-indigo-600"
+          >
+            <ArrowLeft size={18} />
+            Back to Home
+          </Link>
+
+        </div>
+
         {/* Header */}
 
         <div className="text-center">
 
-          <Link href="/">
-            <h1 className="text-3xl font-bold text-indigo-600 cursor-pointer">
-              AssetFlow
-            </h1>
-          </Link>
+          <h1 className="text-3xl font-bold text-indigo-600">
+            AssetFlow
+          </h1>
 
           <h2 className="mt-8 text-3xl font-bold text-slate-900">
-            Welcome!!
+            Welcome Back
           </h2>
 
           <p className="mt-2 text-slate-500">
@@ -32,7 +44,7 @@ export default function LoginPage() {
 
         </div>
 
-        {/* Form */}
+        {/* Login Form */}
 
         <form className="mt-10 space-y-6">
 
@@ -47,7 +59,7 @@ export default function LoginPage() {
             <input
               type="email"
               placeholder="name@company.com"
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
             />
 
           </div>
@@ -64,7 +76,7 @@ export default function LoginPage() {
 
               <Link
                 href="/forgot-password"
-                className="text-sm text-indigo-600 hover:underline"
+                className="text-sm font-medium text-indigo-600 hover:underline"
               >
                 Forgot Password?
               </Link>
@@ -75,14 +87,14 @@ export default function LoginPage() {
 
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 pr-12 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                placeholder="Enter password"
+                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3.5 pr-12 text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-600"
               >
                 {showPassword ? (
                   <EyeOff size={20} />
@@ -99,7 +111,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 text-white font-semibold shadow-lg transition hover:opacity-95 hover:shadow-xl"
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 font-semibold text-white shadow-lg transition hover:opacity-95 hover:shadow-xl"
           >
             Login
           </button>
