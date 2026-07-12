@@ -17,6 +17,7 @@ const initialAllocations = [
     assetTag: "AF-0001",
     employee: "Rahul Sharma",
     department: "IT",
+    category: "Laptop",
     allocationDate: "2026-07-12",
     returnDate: "2026-07-25",
     status: "Allocated",
@@ -28,6 +29,7 @@ const initialAllocations = [
     assetTag: "AF-0002",
     employee: "Priya Patel",
     department: "HR",
+    category: "Laptop",
     allocationDate: "2026-07-10",
     returnDate: "2026-07-28",
     status: "Pending",
@@ -39,18 +41,74 @@ const initialAllocations = [
 
 export default function AllocationPage() {
 
-  // ----------------------------
-  // States
-  // ----------------------------
+  // Allocation Data
 
   const [allocations, setAllocations] =
     useState(initialAllocations);
+
+  // Modal
 
   const [isModalOpen, setIsModalOpen] =
     useState(false);
 
   const [selectedAllocation, setSelectedAllocation] =
     useState(null);
+
+  // ----------------------------
+  // Search & Filters
+  // ----------------------------
+
+  const [search, setSearch] = useState("");
+
+  const [status, setStatus] =
+    useState("All");
+
+  const [department, setDepartment] =
+    useState("All");
+
+  const [category, setCategory] =
+    useState("All");
+
+  // ----------------------------
+  // Filter Logic
+  // ----------------------------
+
+  const filteredAllocations =
+    allocations.filter((allocation) => {
+
+      const matchesSearch =
+        allocation.asset
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        allocation.assetTag
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        allocation.employee
+          .toLowerCase()
+          .includes(search.toLowerCase());
+
+      const matchesStatus =
+        status === "All" ||
+        allocation.status === status;
+
+      const matchesDepartment =
+        department === "All" ||
+        allocation.department === department;
+
+      const matchesCategory =
+        category === "All" ||
+        allocation.category === category;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesDepartment &&
+        matchesCategory
+      );
+
+    });
 
   // ----------------------------
   // Add Allocation
@@ -63,18 +121,20 @@ export default function AllocationPage() {
       newAllocation,
     ]);
 
+    setIsModalOpen(false);
+
   };
 
   // ----------------------------
   // Update Allocation
   // ----------------------------
 
-  const handleUpdateAllocation = (updated) => {
+  const handleUpdateAllocation = (updatedAllocation) => {
 
     setAllocations((prev) =>
       prev.map((allocation) =>
-        allocation.id === updated.id
-          ? updated
+        allocation.id === updatedAllocation.id
+          ? updatedAllocation
           : allocation
       )
     );
@@ -113,7 +173,7 @@ export default function AllocationPage() {
   };
 
   // ----------------------------
-  // Return JSX
+  // UI
   // ----------------------------
 
   return (
@@ -134,31 +194,52 @@ export default function AllocationPage() {
         </p>
 
       </div>
-            {/* Toolbar */}
+
+      {/* Toolbar */}
 
       <AllocationToolbar
+
+        search={search}
+        setSearch={setSearch}
+
+        status={status}
+        setStatus={setStatus}
+
+        department={department}
+        setDepartment={setDepartment}
+
+        category={category}
+        setCategory={setCategory}
+
         onAddAllocation={() => {
+
           setSelectedAllocation(null);
+
           setIsModalOpen(true);
+
         }}
+
       />
 
       {/* Allocation Table */}
 
       <AllocationTable
-        allocations={allocations}
+        allocations={filteredAllocations}
         onDelete={handleDeleteAllocation}
         onEdit={handleEditAllocation}
       />
 
-      {/* Add / Edit Modal */}
+      {/* Modal */}
 
       <AddAllocationModal
         open={isModalOpen}
         allocation={selectedAllocation}
         onClose={() => {
+
           setSelectedAllocation(null);
+
           setIsModalOpen(false);
+
         }}
         onSave={
           selectedAllocation
@@ -166,7 +247,8 @@ export default function AllocationPage() {
             : handleAddAllocation
         }
       />
-          </div>
+
+    </div>
 
   );
 
